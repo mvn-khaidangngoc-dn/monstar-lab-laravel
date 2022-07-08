@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -13,7 +16,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::findOrFail(Auth::user()->id); // user->role = 2 || 3;
+        // dd($user);
+        if (Gate::allows('show-post', $user)) {
+           return "You Can See All List Posts";
+        } else {
+            return "You Can''t See All List Posts";
+        }
     }
 
     /**
@@ -23,7 +32,13 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $user = User::findOrFail(Auth::user()->id); // user->role = 1 || 3;
+        // dd($user);
+        if (Gate::allows('create-post',$user)) {
+           return "You Can Create Posts";
+        } else {
+            return "You Can't Create Posts";
+        }
     }
 
     /**
