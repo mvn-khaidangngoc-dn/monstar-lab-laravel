@@ -1,7 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PostsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return 'Welcome to index';
+    return view('home');
 });
 
 
@@ -24,3 +25,9 @@ Route::post('/users/create', 'UserController@store')->name('user.store');
 Route::get('/users/edit/{id}', 'UserController@edit')->name('user.edit');
 Route::put('/users/update/{id}', 'UserController@update')->name('user.update');
 Route::get('/users/delete/{id}', 'UserController@destroy')->name('user.destroy');
+
+Auth::routes();
+
+Route::resource('posts', PostsController::class);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
